@@ -1,15 +1,28 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useMotionValue, useTransform, useSpring } from "motion/react";
 import Link from "next/link";
 
 type Profile = "writer" | "designer" | null;
 
+function useIsDesktop() {
+  const [isDesktop, setIsDesktop] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    setIsDesktop(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+  return isDesktop;
+}
+
 export default function ProfileSelector() {
   const [hovered, setHovered] = useState<Profile>(null);
   const [exiting, setExiting] = useState<Profile>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const isDesktop = useIsDesktop();
 
   const mouseX = useMotionValue(0.5);
   const springX = useSpring(mouseX, { stiffness: 80, damping: 20 });
@@ -44,14 +57,14 @@ export default function ProfileSelector() {
   return (
     <div
       ref={containerRef}
-      className="relative flex min-h-[100dvh] w-full overflow-hidden"
+      className="relative flex flex-col md:flex-row min-h-[100dvh] w-full overflow-hidden"
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
     >
       {/* ── Writer side ─────────────────────────────────── */}
       <motion.div
-        style={{ width: writerWidth }}
-        className="relative flex flex-col items-start justify-end overflow-hidden cursor-pointer group"
+        style={isDesktop ? { width: writerWidth } : undefined}
+        className="relative flex w-full min-h-[50dvh] md:min-h-0 flex-col items-start justify-end overflow-hidden cursor-pointer group"
         onHoverStart={() => setHovered("writer")}
         onHoverEnd={() => setHovered(null)}
         onClick={() => handleNavigate("writer")}
@@ -71,8 +84,8 @@ export default function ProfileSelector() {
           transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
         />
 
-        {/* Vertical divider line */}
-        <div className="absolute right-0 top-0 h-full w-px bg-white/[0.06] z-10" />
+        {/* Divider line — bottom on mobile, right on desktop */}
+        <div className="absolute bottom-0 left-0 w-full h-px md:right-0 md:top-0 md:left-auto md:h-full md:w-px bg-white/[0.06] z-10" />
 
         {/* Content */}
         <div className="relative z-10 p-10 md:p-16 pb-14 md:pb-20 w-full">
@@ -134,8 +147,8 @@ export default function ProfileSelector() {
 
       {/* ── Designer side ────────────────────────────────── */}
       <motion.div
-        style={{ width: designerWidth }}
-        className="relative flex flex-col items-start justify-end overflow-hidden cursor-pointer group"
+        style={isDesktop ? { width: designerWidth } : undefined}
+        className="relative flex w-full min-h-[50dvh] md:min-h-0 flex-col items-start justify-end overflow-hidden cursor-pointer group"
         onHoverStart={() => setHovered("designer")}
         onHoverEnd={() => setHovered(null)}
         onClick={() => handleNavigate("designer")}
@@ -169,7 +182,7 @@ export default function ProfileSelector() {
 
           {/* Name — sans display */}
           <motion.h2
-            className="font-[var(--font-display)] font-800 leading-[1.0] tracking-[-0.03em]"
+            className="font-[var(--font-display)] font-extrabold leading-[1.0] tracking-[-0.03em]"
             style={{ color: "var(--product-text)" }}
             animate={{
               fontSize: hovered === "designer" ? "clamp(3rem, 6vw, 6rem)" : "clamp(2.5rem, 5vw, 5rem)",
@@ -178,12 +191,12 @@ export default function ProfileSelector() {
           >
             Federico
             <br />
-            <span className="font-300">Giobergia</span>
+            <span className="font-light">Giobergia</span>
           </motion.h2>
 
           {/* Descriptor */}
           <motion.p
-            className="mt-6 max-w-[32ch] text-base leading-relaxed font-[var(--font-display)] font-300"
+            className="mt-6 max-w-[32ch] text-base leading-relaxed font-[var(--font-display)] font-light"
             style={{ color: "var(--product-muted)" }}
             animate={{ opacity: hovered === "designer" ? 0.9 : 0.5, y: hovered === "designer" ? 0 : 4 }}
             transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}

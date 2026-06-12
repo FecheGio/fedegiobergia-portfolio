@@ -35,13 +35,7 @@
   --z-grain: 200;
 }
 
-/* ─── Reset & Base ───────────────────────────────────────────────── */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
+/* ─── Base (Tailwind preflight handles the reset) ────────────────── */
 html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
