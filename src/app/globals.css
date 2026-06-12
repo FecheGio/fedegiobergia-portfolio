@@ -1,26 +1,89 @@
 @import "tailwindcss";
 
+/* ─── Design Tokens ─────────────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Shared neutrals */
+  --off-black: #0e0e0e;
+  --off-white: #f5f4f0;
+
+  /* Writer theme — dark, literary */
+  --writer-bg: #0e0e0e;
+  --writer-surface: #161616;
+  --writer-border: rgba(255,255,255,0.08);
+  --writer-text: #e8e4dc;
+  --writer-muted: rgba(232,228,220,0.45);
+  --writer-accent: #c9b27a;        /* warm gold */
+  --writer-accent-hover: #d9c68e;
+
+  /* Product theme — light, precise */
+  --product-bg: #f5f4f0;
+  --product-surface: #ffffff;
+  --product-border: rgba(0,0,0,0.08);
+  --product-text: #111111;
+  --product-muted: rgba(17,17,17,0.45);
+  --product-accent: #1a1a1a;
+  --product-accent-hover: #333333;
+
+  /* Easing curves (Kowalski) */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+
+  /* Z-index scale */
+  --z-nav: 50;
+  --z-modal: 100;
+  --z-grain: 200;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ─── Reset & Base ───────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+}
+
+/* ─── Grain overlay (fixed, pointer-none — Kowalski perf rule) ───── */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-grain);
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* ─── Typography utility classes ─────────────────────────────────── */
+.font-display {
+  font-family: var(--font-display), 'Satoshi', sans-serif;
+  letter-spacing: -0.03em;
+}
+
+.font-editorial {
+  font-family: var(--font-editorial), 'EB Garamond', Georgia, serif;
+  letter-spacing: -0.01em;
+}
+
+/* ─── Button tactile feedback (Kowalski) ─────────────────────────── */
+.btn-press {
+  transition: transform 160ms var(--ease-out);
+}
+.btn-press:active {
+  transform: scale(0.97);
+}
+
+/* ─── Reduced motion ─────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
 }
