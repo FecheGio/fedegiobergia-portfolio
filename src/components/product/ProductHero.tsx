@@ -5,7 +5,7 @@ import { motion } from "motion/react";
 export default function ProductHero() {
   return (
     <section
-      className="relative flex min-h-[100dvh] flex-col justify-end px-8 md:px-16 pb-20 pt-28"
+      className="relative flex min-h-[100dvh] flex-col justify-end px-6 md:px-16 pb-20 pt-28"
       style={{ background: "var(--product-bg)" }}
     >
       <div className="max-w-[1400px] mx-auto w-full">

@@ -54,6 +54,11 @@ export default function ProfileSelector() {
     setExiting(profile);
   }
 
+  /* On touch (mobile) there is no hover, so each panel always shows its
+     revealed state. On desktop, reveal follows the pointer. */
+  const writerActive = !isDesktop || hovered === "writer";
+  const designerActive = !isDesktop || hovered === "designer";
+
   return (
     <div
       ref={containerRef}
@@ -77,7 +82,7 @@ export default function ProfileSelector() {
           className="absolute inset-0 pointer-events-none"
           animate={{
             background:
-              hovered === "writer"
+              writerActive
                 ? "radial-gradient(ellipse 80% 60% at 30% 70%, rgba(201,178,122,0.12) 0%, transparent 70%)"
                 : "radial-gradient(ellipse 80% 60% at 30% 70%, rgba(201,178,122,0.04) 0%, transparent 70%)",
           }}
@@ -93,7 +98,7 @@ export default function ProfileSelector() {
           <motion.p
             className="text-[11px] tracking-[0.22em] uppercase font-[var(--font-display)] mb-8"
             style={{ color: "var(--writer-muted)" }}
-            animate={{ opacity: hovered === "writer" ? 1 : 0.6 }}
+            animate={{ opacity: writerActive ? 1 : 0.6 }}
             transition={{ duration: 0.3 }}
           >
             Escritor
@@ -104,7 +109,7 @@ export default function ProfileSelector() {
             className="font-[var(--font-editorial)] leading-[1.05] pb-1"
             style={{ color: "var(--writer-text)" }}
             animate={{
-              fontSize: hovered === "writer" ? "clamp(3rem, 6vw, 6rem)" : "clamp(2.5rem, 5vw, 5rem)",
+              fontSize: writerActive ? "clamp(3rem, 6vw, 6rem)" : "clamp(2.5rem, 5vw, 5rem)",
             }}
             transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
           >
@@ -119,7 +124,7 @@ export default function ProfileSelector() {
           <motion.p
             className="mt-6 max-w-[32ch] text-base leading-relaxed font-[var(--font-editorial)]"
             style={{ color: "var(--writer-muted)" }}
-            animate={{ opacity: hovered === "writer" ? 0.9 : 0.5, y: hovered === "writer" ? 0 : 4 }}
+            animate={{ opacity: writerActive ? 0.9 : 0.5, y: writerActive ? 0 : 4 }}
             transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
           >
             Autor publicado. Proyectos en camino. Palabras con intención.
@@ -129,8 +134,8 @@ export default function ProfileSelector() {
           <motion.div
             className="mt-10 flex items-center gap-3 btn-press"
             animate={{
-              opacity: hovered === "writer" ? 1 : 0,
-              x: hovered === "writer" ? 0 : -8,
+              opacity: writerActive ? 1 : 0,
+              x: writerActive ? 0 : -8,
             }}
             transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
           >
@@ -161,7 +166,7 @@ export default function ProfileSelector() {
           className="absolute inset-0 pointer-events-none"
           animate={{
             background:
-              hovered === "designer"
+              designerActive
                 ? "radial-gradient(ellipse 80% 60% at 70% 70%, rgba(17,17,17,0.06) 0%, transparent 70%)"
                 : "radial-gradient(ellipse 80% 60% at 70% 70%, rgba(17,17,17,0.02) 0%, transparent 70%)",
           }}
@@ -174,7 +179,7 @@ export default function ProfileSelector() {
           <motion.p
             className="text-[11px] tracking-[0.22em] uppercase font-[var(--font-display)] mb-8"
             style={{ color: "var(--product-muted)" }}
-            animate={{ opacity: hovered === "designer" ? 1 : 0.6 }}
+            animate={{ opacity: designerActive ? 1 : 0.6 }}
             transition={{ duration: 0.3 }}
           >
             Product Designer
@@ -185,7 +190,7 @@ export default function ProfileSelector() {
             className="font-[var(--font-display)] font-extrabold leading-[1.0] tracking-[-0.03em]"
             style={{ color: "var(--product-text)" }}
             animate={{
-              fontSize: hovered === "designer" ? "clamp(3rem, 6vw, 6rem)" : "clamp(2.5rem, 5vw, 5rem)",
+              fontSize: designerActive ? "clamp(3rem, 6vw, 6rem)" : "clamp(2.5rem, 5vw, 5rem)",
             }}
             transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
           >
@@ -198,7 +203,7 @@ export default function ProfileSelector() {
           <motion.p
             className="mt-6 max-w-[32ch] text-base leading-relaxed font-[var(--font-display)] font-light"
             style={{ color: "var(--product-muted)" }}
-            animate={{ opacity: hovered === "designer" ? 0.9 : 0.5, y: hovered === "designer" ? 0 : 4 }}
+            animate={{ opacity: designerActive ? 0.9 : 0.5, y: designerActive ? 0 : 4 }}
             transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
           >
             Product & UX designer. Sistemas que se sienten bien y funcionan mejor.
@@ -208,8 +213,8 @@ export default function ProfileSelector() {
           <motion.div
             className="mt-10 flex items-center gap-3 btn-press"
             animate={{
-              opacity: hovered === "designer" ? 1 : 0,
-              x: hovered === "designer" ? 0 : -8,
+              opacity: designerActive ? 1 : 0,
+              x: designerActive ? 0 : -8,
             }}
             transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
           >
@@ -224,9 +229,9 @@ export default function ProfileSelector() {
         </div>
       </motion.div>
 
-      {/* ── Center name (initial state, fades on hover) ── */}
+      {/* ── Center name (desktop-only initial state, fades on hover) ── */}
       <motion.div
-        className="absolute inset-0 flex items-center justify-center pointer-events-none z-20"
+        className="absolute inset-0 hidden md:flex items-center justify-center pointer-events-none z-20"
         animate={{ opacity: hovered ? 0 : 1 }}
         transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
       >

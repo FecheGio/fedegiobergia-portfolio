@@ -11,7 +11,7 @@ export default function ProductAbout() {
     <section
       id="sobre-mi"
       ref={ref}
-      className="px-8 md:px-16 py-28 md:py-36"
+      className="px-6 md:px-16 py-28 md:py-36"
       style={{
         background: "var(--product-bg)",
         borderTop: "1px solid var(--product-border)",

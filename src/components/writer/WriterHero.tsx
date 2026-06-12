@@ -7,7 +7,7 @@ const STAGGER = 0.08;
 export default function WriterHero() {
   return (
     <section
-      className="relative flex min-h-[100dvh] flex-col justify-end px-8 md:px-16 pb-20 pt-28"
+      className="relative flex min-h-[100dvh] flex-col justify-end px-6 md:px-16 pb-20 pt-28"
       style={{ background: "var(--writer-bg)" }}
     >
       {/* Subtle top gradient */}

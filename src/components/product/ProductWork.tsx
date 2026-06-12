@@ -46,7 +46,7 @@ export default function ProductWork() {
     <section
       id="trabajo"
       ref={ref}
-      className="px-8 md:px-16 py-28 md:py-36"
+      className="px-6 md:px-16 py-28 md:py-36"
       style={{
         background: "var(--product-surface)",
         borderTop: "1px solid var(--product-border)",

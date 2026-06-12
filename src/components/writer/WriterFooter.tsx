@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function WriterFooter() {
   return (
     <footer
-      className="px-8 md:px-16 py-12"
+      className="px-6 md:px-16 py-12"
       style={{
         borderTop: "1px solid var(--writer-border)",
         background: "var(--writer-bg)",

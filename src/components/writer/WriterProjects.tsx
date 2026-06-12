@@ -31,7 +31,7 @@ export default function WriterProjects() {
     <section
       id="proyectos"
       ref={ref}
-      className="px-8 md:px-16 py-28 md:py-36"
+      className="px-6 md:px-16 py-28 md:py-36"
       style={{
         background: "var(--writer-surface)",
         borderTop: "1px solid var(--writer-border)",
